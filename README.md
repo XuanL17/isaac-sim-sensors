@@ -31,6 +31,7 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
     ├── gps_bridge.py       # ROS2: odom → NavSatFix converter
     ├── patch_sensors.py    # USD patcher: LiDAR/camera config fixes
     ├── patch_cameras.py    # USD patcher: reparent cameras to Body
+    ├── patch_lidar_fov.py  # USD patcher: LiDAR FOV 120°, reparent, lower heights
     └── revert_lidar.py     # USD patcher: revert LiDAR to ROTARY
 ```
 
@@ -90,8 +91,8 @@ ros2 topic echo /atlas/fix          # GPS NavSatFix (requires gps_bridge.py)
 
 ## Known Issues
 
-- **LiDAR config**: Livox HAP solid-state config (45,200 emitters) crashes the RTX sensor plugin due to empty emitter arrays in the config JSON. Currently using a generic ROTARY/128-emitter config as workaround.
-- **GPS**: No native Isaac Sim NavSatFix publisher — uses external ROS2 bridge script.
+- **LiDAR config**: Livox HAP solid-state config (45,200 emitters) crashes the RTX sensor plugin due to empty emitter arrays in the config JSON. Using ROTARY/128-emitter with 120° FOV limit as workaround.
+- **GPS**: No native Isaac Sim NavSatFix publisher — uses external ROS2 bridge script (`gps_bridge.py`).
 
 ## Hardware Reference
 
