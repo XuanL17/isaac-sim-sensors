@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Patch sensor prims in progress3 (copy).usd
+Patch sensor prims in progress3_latest.usd
 Fixes: Livox HAP LiDAR, OAK-D cameras, ZED 2 cameras
 Does NOT touch /World/drive or any OmniGraph wiring (already correct)
 """
@@ -11,7 +11,7 @@ import sys
 
 from pxr import Gf, Sdf, Usd, UsdGeom
 
-STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3 (copy).usd")
+STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3_latest.usd")
 LIVOX_JSON = "/home/tritonai/isaac-sim/exts/omni.sensors.nv.lidar/data/sensors/lidar/Livox_HAP.json"
 
 

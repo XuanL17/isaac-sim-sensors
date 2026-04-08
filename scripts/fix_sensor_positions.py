@@ -23,7 +23,7 @@ import sys
 
 from pxr import Gf, Usd
 
-STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3 (copy).usd")
+STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3_latest.usd")
 
 # Body scale Z factor
 BODY_SCALE_Z = 7.688377

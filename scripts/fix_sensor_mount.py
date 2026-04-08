@@ -23,7 +23,7 @@ import sys
 
 from pxr import Gf, Sdf, Usd, UsdGeom
 
-STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3 (copy).usd")
+STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3_latest.usd")
 
 BODY_SCALE_Z = 7.688377
 INVERSE_Z = 1.0 / BODY_SCALE_Z  # 0.13007...

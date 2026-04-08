@@ -10,7 +10,7 @@ import sys
 
 from pxr import Usd
 
-STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3 (copy).usd")
+STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3_latest.usd")
 
 # Original values from before patch_sensors.py modified them
 ORIGINAL_VALUES = {

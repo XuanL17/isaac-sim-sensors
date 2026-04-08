@@ -13,7 +13,7 @@ import sys
 
 from pxr import Gf, Sdf, Usd, UsdGeom
 
-STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3 (copy).usd")
+STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3_latest.usd")
 
 # Cameras to reparent
 CAMERAS = [

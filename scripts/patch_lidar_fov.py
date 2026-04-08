@@ -14,7 +14,7 @@ import sys
 
 from pxr import Gf, Sdf, Usd
 
-STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3 (copy).usd")
+STAGE_PATH = os.path.join(os.path.dirname(__file__), "..", "stage", "progress3_latest.usd")
 
 
 def fix_lidar_fov(stage):

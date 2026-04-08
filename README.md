@@ -20,7 +20,7 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 ├── kart/                   # Go-kart 3D models (FBX + USD)
 ├── track/                  # Purdue track models + textures
 ├── stage/                  # USD scene files
-│   ├── progress3 (copy).usd   # ← Active working scene
+│   ├── progress3_latest.usd   # ← Active working scene
 │   ├── progress3.usd          # Previous checkpoint
 │   ├── progress2.usd
 │   ├── progress1.usd
@@ -35,7 +35,7 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
     └── revert_lidar.py     # USD patcher: revert LiDAR to ROTARY
 ```
 
-## Scene Hierarchy (`progress3 (copy).usd`)
+## Scene Hierarchy (`progress3_latest.usd`)
 
 ```
 /World
@@ -65,7 +65,7 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 ```bash
 cd ~/isaac-sim
 ./isaac-sim.sh
-# Open: ~/Downloads/isaac_sim/stage/progress3 (copy).usd
+# Open: ~/Downloads/isaac_sim/stage/progress3_latest.usd
 # Press ▶ Play to start simulation
 ```
 
