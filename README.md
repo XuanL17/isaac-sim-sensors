@@ -2,6 +2,15 @@
 
 Simulation environment for the AV4EV autonomous electric go-kart on the Purdue Grand Prix track using NVIDIA Isaac Sim.
 
+## Course / team upstream
+
+Course work may track the team branch [isaac-sim-sensors](https://github.com/Triton-AI/WI25-DSC190-Team-3/tree/isaac-sim-sensors) on [Triton-AI/WI25-DSC190-Team-3](https://github.com/Triton-AI/WI25-DSC190-Team-3).
+
+### Repositories
+
+- **`origin`** — typical development remote (e.g. [XuanL17/isaac-sim-sensors](https://github.com/XuanL17/isaac-sim-sensors)).
+- **`triton-ai`** (optional) — course team upstream [Triton-AI/WI25-DSC190-Team-3](https://github.com/Triton-AI/WI25-DSC190-Team-3); use the branch link above when aligning with coursework.
+
 ## Sensors
 
 | Sensor | Type | Status | ROS2 Topic |
