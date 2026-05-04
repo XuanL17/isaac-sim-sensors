@@ -1,0 +1,45 @@
+# Reproducible stack: NVIDIA Isaac Sim (NGC) + ROS 2 + RViz2 + this repo mounted at /workspace/repo
+#
+# Prerequisites: Docker, NVIDIA Container Toolkit, `docker login nvcr.io`
+#
+#   docker compose build
+#   docker compose run --rm -it av4ev-sim
+#
+# See docker/README.md for Isaac headless, RViz2, and gps-bridge workflows.
+
+services:
+  av4ev-sim:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      args:
+        ISAAC_SIM_VERSION: "${ISAAC_SIM_VERSION:-4.5.0}"
+    image: "av4ev-isaac-sim:${ISAAC_SIM_VERSION:-4.5.0}"
+    stdin_open: true
+    tty: true
+    network_mode: host
+    gpus: all
+    environment:
+      - ACCEPT_EULA=Y
+      - PRIVACY_CONSENT=Y
+      - ISAAC_SIM_PROJECT=/workspace/repo
+    volumes:
+      - .:/workspace/repo:rw
+      - av4ev-kit-cache:/isaac-sim/kit/cache
+      - av4ev-ov-cache:/root/.cache/ov
+      - av4ev-pip-cache:/root/.cache/pip
+      - av4ev-glcache:/root/.cache/nvidia/GLCache
+      - av4ev-computecache:/root/.nv/ComputeCache
+      - av4ev-logs:/root/.nvidia-omniverse/logs
+      - av4ev-ov-data:/root/.local/share/ov/data
+      - av4ev-documents:/root/Documents
+
+volumes:
+  av4ev-kit-cache:
+  av4ev-ov-cache:
+  av4ev-pip-cache:
+  av4ev-glcache:
+  av4ev-computecache:
+  av4ev-logs:
+  av4ev-ov-data:
+  av4ev-documents:

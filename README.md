@@ -17,6 +17,8 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 ## Directory Structure
 
 ```
+├── docker-compose.yml      # Isaac Sim (NGC) + ROS 2 + RViz2 + repo mount
+├── docker/                 # Dockerfile, entrypoint, gps-bridge helper, docs
 ├── kart/                   # Go-kart 3D models (FBX + USD)
 ├── track/                  # Purdue track models + textures
 ├── stage/                  # USD scene files
@@ -59,6 +61,19 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 ├── CameraGraph [OmniGraph — 7 cameras → ROS2]
 └── GPSGraph [OmniGraph — odometry → ROS2]
 ```
+
+## Docker (reproducible full stack)
+
+GPU workstation or server with **Docker** + **NVIDIA Container Toolkit**: Isaac Sim (official NGC image), **ROS 2**, **RViz2**, persistent caches, and a **`gps-bridge`** helper for `scripts/gps_bridge.py`.
+
+```bash
+cp -n .env.example .env   # optional
+docker login nvcr.io      # NGC API key as password
+docker compose build
+docker compose run --rm -it av4ev-sim
+```
+
+Details, headless streaming, RViz over X11, and troubleshooting: **[docker/README.md](docker/README.md)**.
 
 ## Running
 

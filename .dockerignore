@@ -1,0 +1,10 @@
+# Keep build context small; full project is bind-mounted at runtime.
+.git
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+scripts/.vscode
+**/stage/*copy*.usd
+**/stage/*another copy*.usd
