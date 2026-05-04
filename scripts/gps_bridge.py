@@ -23,49 +23,24 @@ from nav_msgs.msg import Odometry
 from sensor_msgs.msg import NavSatFix, NavSatStatus
 from std_msgs.msg import Header
 
-
 # Purdue Grand Prix Track approximate center
-# Adjust these to match your track's real-world GPS origin
-ORIGIN_LAT = 40.4432    # degrees N
-ORIGIN_LON = -86.9427   # degrees W
-ORIGIN_ALT = 190.0      # meters above WGS-84 ellipsoid
+ORIGIN_LAT = 40.4432
+ORIGIN_LON = -86.9427
+ORIGIN_ALT = 190.0
 
-# WGS-84 ellipsoid constants
-WGS84_A = 6378137.0             # semi-major axis (m)
-WGS84_E2 = 0.00669437999014     # first eccentricity squared
+_WGS84_A = 6378137.0
+_WGS84_E2 = 0.00669437999014
 
 
 def meters_to_gps(x_east, y_north, z_up, origin_lat, origin_lon, origin_alt):
-    """
-    Convert local ENU (East-North-Up) offset in meters to GPS lat/lon/alt.
-
-    Uses a local tangent plane approximation which is accurate to ~1cm
-    within a few km of the origin.
-
-    Args:
-        x_east: meters east of origin (Isaac Sim +X or +Y depending on frame)
-        y_north: meters north of origin
-        z_up: meters above origin
-        origin_lat: origin latitude in degrees
-        origin_lon: origin longitude in degrees
-        origin_alt: origin altitude in meters (WGS-84)
-
-    Returns:
-        (latitude_deg, longitude_deg, altitude_m)
-    """
+    """ENU offset in metres → (latitude_deg, longitude_deg, altitude_m)."""
     lat_rad = math.radians(origin_lat)
-
-    # Radius of curvature in the prime vertical
-    n = WGS84_A / math.sqrt(1 - WGS84_E2 * math.sin(lat_rad) ** 2)
-
-    # Meters per degree at this latitude
-    m_per_deg_lat = math.radians(1) * n * (1 - WGS84_E2) / (1 - WGS84_E2 * math.sin(lat_rad) ** 2)
+    n = _WGS84_A / math.sqrt(1 - _WGS84_E2 * math.sin(lat_rad) ** 2)
+    m_per_deg_lat = math.radians(1) * n * (1 - _WGS84_E2) / (1 - _WGS84_E2 * math.sin(lat_rad) ** 2)
     m_per_deg_lon = math.radians(1) * n * math.cos(lat_rad)
-
     lat = origin_lat + (y_north / m_per_deg_lat)
     lon = origin_lon + (x_east / m_per_deg_lon)
     alt = origin_alt + z_up
-
     return lat, lon, alt
 
 

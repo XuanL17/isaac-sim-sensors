@@ -12,7 +12,7 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 | OAK-D Depth | Camera (depth) | Working | `oak/stereo/depth` |
 | ZED 2 Stereo L/R | Camera (stereo) | Working | `zed2/zed_node/left/image_rect_color`, `zed2/zed_node/right/image_rect_color` |
 | ZED 2 Depth | Camera (depth) | Working | `zed2/zed_node/depth/depth_registered` |
-| Point One Nav Atlas | GPS (via odom) | Bridge script | `atlas/odometry` → `atlas/fix` |
+| Point One Nav Atlas | GPS (via odom) | ROS bridge + optional Isaac HUD | `atlas/odometry` → `atlas/fix`; see **GPS** below |
 
 ## Directory Structure
 
@@ -28,7 +28,8 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 │   └── rew.usd
 └── scripts/
     ├── steering.py         # Vehicle control (WIP)
-    ├── gps_bridge.py       # ROS2: odom → NavSatFix converter
+    ├── gps_bridge.py       # ROS2: odom → NavSatFix (self-contained, no extra modules)
+    ├── isaac_gps_hud.py    # Isaac Sim: viewport overlay for lat/lon/alt (Script Editor)
     ├── patch_sensors.py    # USD patcher: LiDAR/camera config fixes
     ├── patch_cameras.py    # USD patcher: reparent cameras to Body
     ├── patch_lidar_fov.py  # USD patcher: LiDAR FOV 120°, reparent, lower heights
@@ -69,16 +70,32 @@ cd ~/isaac-sim
 # Press ▶ Play to start simulation
 ```
 
-### GPS Bridge (separate terminal)
+### GPS
+
+Isaac Sim does not publish `sensor_msgs/NavSatFix` from the OmniGraph by default. This repo uses a small ROS 2 node plus an optional in-sim overlay (same general idea as the GNSS HUD in [autoware_off-road_sim](https://github.com/autowarefoundation/autoware_off-road_sim)).
+
+#### ROS 2 bridge (separate terminal)
+
 ```bash
-# Requires ROS2 Humble/Jazzy
+# Requires ROS 2 Humble/Jazzy and a sourced workspace if applicable
 python3 ~/Downloads/isaac_sim/scripts/gps_bridge.py
 ```
 
-Configurable via ROS2 params:
+`gps_bridge.py` is self-contained (WGS-84 conversion and defaults live in the file). Parameters:
+
 - `origin_lat` (default: 40.4432 — Purdue track)
 - `origin_lon` (default: -86.9427)
-- `origin_alt` (default: 190.0m)
+- `origin_alt` (default: 190.0 m)
+- `odom_topic` (default: `atlas/odometry`)
+- `fix_topic` (default: `atlas/fix`)
+
+#### In-viewport readout (Isaac Sim)
+
+After opening the stage, run **`scripts/isaac_gps_hud.py`** from **Window → Script Editor** (Open file → Run). That creates an `omni.ui` overlay with latitude, longitude, and altitude from the world pose of **`/World/kart/Body`** using the same ENU→WGS-84 math as the bridge.
+
+Optional: `show_gps_hud(body_prim_path="...", origin_lat=..., origin_lon=..., origin_alt=...)` if your chassis prim or map origin differs. Call `stop_gps_hud()` before starting again.
+
+**Note:** The HUD uses the Body prim’s **world** position. If your `atlas/odometry` frame differs from world coordinates, tune the prim path or origins so the HUD matches `/atlas/fix`.
 
 ### Verify ROS2 Topics
 ```bash
@@ -92,7 +109,7 @@ ros2 topic echo /atlas/fix          # GPS NavSatFix (requires gps_bridge.py)
 ## Known Issues
 
 - **LiDAR config**: Livox HAP solid-state config (45,200 emitters) crashes the RTX sensor plugin due to empty emitter arrays in the config JSON. Using ROTARY/128-emitter with 120° FOV limit as workaround.
-- **GPS**: No native Isaac Sim NavSatFix publisher — uses external ROS2 bridge script (`gps_bridge.py`).
+- **GPS**: No built-in NavSatFix publisher in the graph — use `gps_bridge.py` for ROS 2 and optionally `isaac_gps_hud.py` for an on-screen readout in Isaac Sim.
 
 ## Hardware Reference
 
