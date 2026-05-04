@@ -24,6 +24,7 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 ├── stage/                  # USD scene files
 │   ├── progress3_latest.usd   # ← Active working scene
 │   ├── progress3.usd          # Previous checkpoint
+│   ├── progress3_backup_20260402.usd
 │   ├── progress2.usd
 │   ├── progress1.usd
 │   ├── Lidarprogress1.usd
@@ -64,16 +65,19 @@ Simulation environment for the AV4EV autonomous electric go-kart on the Purdue G
 
 ## Docker (reproducible full stack)
 
-GPU workstation or server with **Docker** + **NVIDIA Container Toolkit**: Isaac Sim (official NGC image), **ROS 2**, **RViz2**, persistent caches, and a **`gps-bridge`** helper for `scripts/gps_bridge.py`.
+From the repo root, **`docker-compose.yml`** builds **`docker/Dockerfile`** and runs a container with Isaac Sim (NGC), ROS 2, RViz2, Omniverse cache volumes, and this repo at **`/workspace/repo`**.
+
+**Prerequisites:** Linux host with an NVIDIA GPU, [Docker](https://docs.docker.com/engine/install/) and the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html), and **NGC access** — log in once so pulls from `nvcr.io` succeed (`docker login nvcr.io`; username **`$oauthtoken`**, password your [NGC API key](https://docs.nvidia.com/ngc/ngc-private-registry-user-guide/index.html)).
 
 ```bash
-cp -n .env.example .env   # optional
-docker login nvcr.io      # NGC API key as password
+cp -n .env.example .env   # optional: ISAAC_SIM_VERSION, etc.
 docker compose build
 docker compose run --rm -it av4ev-sim
 ```
 
-Details, headless streaming, RViz over X11, and troubleshooting: **[docker/README.md](docker/README.md)**.
+Headless Isaac + WebRTC, RViz over X11, **`gps-bridge`**, and troubleshooting: **[docker/README.md](docker/README.md)**.
+
+If you cloned **`master`** and do not see `docker-compose.yml` or `docker/`, use branch **`docker/full-stack`** (merge or checkout) for the full container workflow.
 
 ## Running
 
