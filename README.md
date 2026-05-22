@@ -38,6 +38,8 @@ Course work may track the team branch [isaac-sim-sensors](https://github.com/Tri
 │   ├── progress1.usd
 │   ├── Lidarprogress1.usd
 │   └── rew.usd
+├── ros2/
+│   └── auto_drive/         # Lane follow, GPS waypoint follow, cmd arbiter (colcon)
 └── scripts/
     ├── steering.py         # Vehicle control (WIP)
     ├── gps_bridge.py       # ROS2: odom → NavSatFix (self-contained, no extra modules)
@@ -133,6 +135,19 @@ ros2 topic echo /oak/rgb/image_raw  # OAK-D RGB
 ros2 topic echo /atlas/odometry     # Odometry
 ros2 topic echo /atlas/fix          # GPS NavSatFix (requires gps_bridge.py)
 ```
+
+### Autonomous drive stack (`auto_drive`)
+
+Build and run lane follow + GPS waypoint follow + camera/GPS command fusion — see **[ros2/README.md](ros2/README.md)**.
+
+Summary (after `colcon build` in `ros2/`):
+
+1. `gps_bridge.py` (or `gps-bridge` in Docker) — `atlas/odometry` → `atlas/fix`
+2. `ros2 run auto_drive lane_follow_node` — `oak/rgb/image_raw` → `camera_cmd`
+3. `ros2 run auto_drive gps_waypoint_follower` — `atlas/fix` → `gps_cmd`
+4. `ros2 run auto_drive cmd_arbiter` — `camera_cmd` + `gps_cmd` → `ackermann_cmd` (70% camera steer, 30% GPS steer; speed from GPS)
+
+Placeholder track waypoints live in `ros2/auto_drive/waypoints/track_waypoints.json` (Purdue origin); replace before on-track use.
 
 ## Known Issues
 

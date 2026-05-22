@@ -1,0 +1,12 @@
+{
+  "description": "Placeholder Purdue Grand Prix track waypoints for Isaac Sim. Coordinates align with gps_bridge.py default origin (40.4432, -86.9427). Replace with surveyed track GPS before on-track use.",
+  "waypoint_radius_m": 5.0,
+  "default_speed_mps": 2.0,
+  "max_steer_rad": 0.35,
+  "waypoints": [
+    {"lat": 40.44320, "lon": -86.94270},
+    {"lat": 40.44335, "lon": -86.94250},
+    {"lat": 40.44350, "lon": -86.94270},
+    {"lat": 40.44335, "lon": -86.94290}
+  ]
+}
